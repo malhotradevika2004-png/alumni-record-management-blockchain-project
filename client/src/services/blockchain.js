@@ -601,6 +601,9 @@ export const parseBlockchainError = (err) => {
   if (raw.toLowerCase().includes("insufficient funds")) {
     return "Insufficient ETH in your wallet to cover the transaction gas fee.";
   }
+  if (raw.includes("-32002") || raw.includes("RPC endpoint returned too many errors") || raw.includes("could not coalesce error")) {
+    return "Blockchain network node was momentarily reconnecting. Please click 'Submit to Blockchain' again now.";
+  }
   if (raw.includes("CALL_EXCEPTION") || raw.includes("execution reverted")) {
     return "Smart contract rejected the transaction: Record already exists or violates security rules.";
   }
