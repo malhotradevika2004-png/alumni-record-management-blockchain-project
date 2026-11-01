@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  body {
+    background-color: #050814;
+    color: #e2e8f0;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+}
+
+/* Custom glowing and glassmorphism utilities */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-panel-hover:hover {
+  background: rgba(30, 41, 59, 0.75);
+  border-color: rgba(56, 189, 248, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -10px rgba(12, 141, 228, 0.2);
+}
+
+.glow-brand {
+  box-shadow: 0 0 35px -5px rgba(12, 141, 228, 0.35);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.35);
+}
+
+/* Modern subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Shimmer animation for blockchain verification pulse */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(56, 189, 248, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+  }
+}
+
+.pulse-badge {
+  animation: pulse-ring 2.5s infinite cubic-bezier(0.45, 0, 0.55, 1);
+}
+

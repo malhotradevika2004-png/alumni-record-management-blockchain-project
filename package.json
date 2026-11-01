@@ -1,0 +1,26 @@
+{
+  "name": "bct-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "npx hardhat compile",
+    "test": "npx hardhat test",
+    "node": "npx hardhat node",
+    "deploy:local": "npx hardhat run scripts/deploy.js --network localhost",
+    "deploy:sepolia": "npx hardhat run scripts/deploy.js --network sepolia",
+    "client": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "preview": "npm --prefix client run preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "dotenv": "^18.0.9",
+    "ethers": "^6.17.0",
+    "hardhat": "^2.29.1"
+  }
+}

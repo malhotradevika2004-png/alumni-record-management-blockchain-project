@@ -1,0 +1,1086 @@
+{
+  "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "institutionName": "Apex University Institute of Technology",
+  "deployer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "network": "localhost",
+  "chainId": 31337,
+  "deployedAt": "2026-11-01T11:37:20.272Z",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_institutionName",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "alumniId",
+          "type": "string"
+        }
+      ],
+      "name": "AlumniAlreadyExists",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "alumniId",
+          "type": "string"
+        }
+      ],
+      "name": "AlumniNotFound",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "certificateId",
+          "type": "string"
+        }
+      ],
+      "name": "CertificateAlreadyExists",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "certificateId",
+          "type": "string"
+        }
+      ],
+      "name": "CertificateNotFound",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "EmptyIdentifier",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NotAuthorized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OnlyAdminAllowed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ZeroAddressProvided",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousAdmin",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newAdmin",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "AdminTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "alumniId",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "reinstatedBy",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "AlumniRecordReinstated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "alumniId",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "reason",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "revokedBy",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "AlumniRecordRevoked",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "alumniId",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "newDataHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "newDegree",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "updatedBy",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "AlumniRecordUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "alumniId",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "degree",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint16",
+          "name": "graduationYear",
+          "type": "uint16"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "dataHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "registeredBy",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "AlumniRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "certificateId",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "alumniId",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "certHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "issuer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "CertificateIssued",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "certificateId",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "alumniId",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "reason",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "revokedBy",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "CertificateRevoked",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "registrar",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "byAdmin",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "RegistrarAuthorized",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "registrar",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "byAdmin",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "RegistrarRevoked",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_registrar",
+          "type": "address"
+        }
+      ],
+      "name": "authorizeRegistrar",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllAlumniIds",
+      "outputs": [
+        {
+          "internalType": "string[]",
+          "name": "",
+          "type": "string[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllCertificateIds",
+      "outputs": [
+        {
+          "internalType": "string[]",
+          "name": "",
+          "type": "string[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_alumniId",
+          "type": "string"
+        }
+      ],
+      "name": "getAlumni",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "alumniId",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "degree",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "department",
+              "type": "string"
+            },
+            {
+              "internalType": "uint16",
+              "name": "graduationYear",
+              "type": "uint16"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "dataHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "registrationDate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "lastUpdatedDate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "enum AlumniRecordManagement.RecordStatus",
+              "name": "status",
+              "type": "uint8"
+            },
+            {
+              "internalType": "address",
+              "name": "alumniWallet",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "isRegistered",
+              "type": "bool"
+            },
+            {
+              "internalType": "string",
+              "name": "revocationReason",
+              "type": "string"
+            }
+          ],
+          "internalType": "struct AlumniRecordManagement.Alumni",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_alumniId",
+          "type": "string"
+        }
+      ],
+      "name": "getAlumniCertificates",
+      "outputs": [
+        {
+          "internalType": "string[]",
+          "name": "",
+          "type": "string[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_certificateId",
+          "type": "string"
+        }
+      ],
+      "name": "getCertificate",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "certificateId",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "alumniId",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "title",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "cgpaOrGrade",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "issueDate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "certHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "address",
+              "name": "issuer",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "isRevoked",
+              "type": "bool"
+            },
+            {
+              "internalType": "string",
+              "name": "revocationReason",
+              "type": "string"
+            },
+            {
+              "internalType": "bool",
+              "name": "exists",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct AlumniRecordManagement.Certificate",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getSystemStatistics",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "_totalAlumni",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_activeAlumni",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_revokedAlumni",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_totalCertificates",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_activeCertificates",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_revokedCertificates",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "institutionAdmin",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "institutionName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "isAuthorizedRegistrar",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_certificateId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_alumniId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_title",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_cgpaOrGrade",
+          "type": "string"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_certHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "issueCertificate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_alumniId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_degree",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_department",
+          "type": "string"
+        },
+        {
+          "internalType": "uint16",
+          "name": "_graduationYear",
+          "type": "uint16"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_dataHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "_alumniWallet",
+          "type": "address"
+        }
+      ],
+      "name": "registerAlumni",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_alumniId",
+          "type": "string"
+        }
+      ],
+      "name": "reinstateAlumniRecord",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_alumniId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_reason",
+          "type": "string"
+        }
+      ],
+      "name": "revokeAlumniRecord",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_certificateId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_reason",
+          "type": "string"
+        }
+      ],
+      "name": "revokeCertificate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_registrar",
+          "type": "address"
+        }
+      ],
+      "name": "revokeRegistrar",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "revokedAlumniCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "revokedCertificatesCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        }
+      ],
+      "name": "setInstitutionName",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalAlumniCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalCertificatesCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_newAdmin",
+          "type": "address"
+        }
+      ],
+      "name": "transferAdmin",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_alumniId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_newDegree",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_newDepartment",
+          "type": "string"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_newDataHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "_alumniWallet",
+          "type": "address"
+        }
+      ],
+      "name": "updateAlumniRecord",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_alumniId",
+          "type": "string"
+        }
+      ],
+      "name": "verifyAlumni",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "isValid",
+          "type": "bool"
+        },
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "alumniId",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "degree",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "department",
+              "type": "string"
+            },
+            {
+              "internalType": "uint16",
+              "name": "graduationYear",
+              "type": "uint16"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "dataHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "registrationDate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "lastUpdatedDate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "enum AlumniRecordManagement.RecordStatus",
+              "name": "status",
+              "type": "uint8"
+            },
+            {
+              "internalType": "address",
+              "name": "alumniWallet",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "isRegistered",
+              "type": "bool"
+            },
+            {
+              "internalType": "string",
+              "name": "revocationReason",
+              "type": "string"
+            }
+          ],
+          "internalType": "struct AlumniRecordManagement.Alumni",
+          "name": "record",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_certificateId",
+          "type": "string"
+        }
+      ],
+      "name": "verifyCertificate",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "isValid",
+          "type": "bool"
+        },
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "certificateId",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "alumniId",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "title",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "cgpaOrGrade",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "issueDate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "certHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "address",
+              "name": "issuer",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "isRevoked",
+              "type": "bool"
+            },
+            {
+              "internalType": "string",
+              "name": "revocationReason",
+              "type": "string"
+            },
+            {
+              "internalType": "bool",
+              "name": "exists",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct AlumniRecordManagement.Certificate",
+          "name": "cert",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}
