@@ -4,7 +4,7 @@
   "deployer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
   "network": "localhost",
   "chainId": 31337,
-  "deployedAt": "2026-11-01T13:51:05.778Z",
+  "deployedAt": "2026-11-01T14:15:07.524Z",
   "abi": [
     {
       "inputs": [

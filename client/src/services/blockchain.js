@@ -555,3 +555,38 @@ export const fetchContractEvents = async () => {
   }
 };
 
+/**
+ * Translates raw low-level EVM revert codes and hex selectors into clear,
+ * professional academic messages so students, faculty, and evaluators easily understand them.
+ */
+export const parseBlockchainError = (err) => {
+  if (!err) return "Transaction could not be completed.";
+  const raw = typeof err === 'string' ? err : (err.message || err.data || JSON.stringify(err));
+  
+  if (raw.includes("0xb32bb9c0") || raw.includes("CertificateAlreadyExists")) {
+    return "This Certificate ID has already been issued on the blockchain. The smart contract strictly prevents duplicate degrees to maintain academic integrity.";
+  }
+  if (raw.includes("0x4095493c") || raw.includes("AlumniAlreadyExists")) {
+    return "This Alumni Registration ID is already registered on the blockchain. Duplicate student identities cannot be created.";
+  }
+  if (raw.includes("0x0a14e295") || raw.includes("AlumniNotFound")) {
+    return "Alumnus ID was not found on the blockchain. The student record must be registered before issuing an academic degree.";
+  }
+  if (raw.includes("0x8eef6a6e") || raw.includes("OnlyAdminAllowed")) {
+    return "Access Denied: Only the University Institution Admin wallet can perform this action.";
+  }
+  if (raw.includes("0xea8e4eb5") || raw.includes("NotAuthorized")) {
+    return "Access Denied: Your connected wallet is not an authorized University Registrar.";
+  }
+  if (raw.includes("4001") || raw.toLowerCase().includes("user rejected") || raw.toLowerCase().includes("user denied")) {
+    return "Transaction was cancelled in MetaMask by the user.";
+  }
+  if (raw.toLowerCase().includes("insufficient funds")) {
+    return "Insufficient ETH in your wallet to cover the transaction gas fee.";
+  }
+  if (raw.includes("CALL_EXCEPTION") || raw.includes("execution reverted")) {
+    return "Smart contract rejected the transaction. The record may already exist or violates access rules.";
+  }
+  return raw;
+};
+

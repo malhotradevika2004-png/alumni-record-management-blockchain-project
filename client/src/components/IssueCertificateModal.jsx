@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Award, Loader2, Sparkles, FileCheck2 } from 'lucide-react';
-import { issueCertificateOnChain } from '../services/blockchain';
+import { issueCertificateOnChain, parseBlockchainError } from '../services/blockchain';
 import { saveCertificateRecord, addTransactionRecord } from '../services/storage';
 
 export default function IssueCertificateModal({ 
@@ -108,11 +108,12 @@ export default function IssueCertificateModal({
       onClose();
     } catch (err) {
       console.error("Issuance failed:", err);
-      setErrorMsg(err.message || 'Transaction failed');
+      const friendlyError = parseBlockchainError(err);
+      setErrorMsg(friendlyError);
       onTxUpdate({
         status: 'error',
-        title: 'Issuance Transaction Failed',
-        error: err.message,
+        title: 'Certificate Issuance Blocked',
+        error: friendlyError,
       });
     } finally {
       setSubmitting(false);

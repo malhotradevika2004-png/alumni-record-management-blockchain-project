@@ -1,5 +1,6 @@
 import React from 'react';
 import { Loader2, CheckCircle2, AlertTriangle, ExternalLink, X, Copy, Check } from 'lucide-react';
+import { parseBlockchainError } from '../services/blockchain';
 
 export default function TransactionModal({ isOpen, onClose, state }) {
   const [copied, setCopied] = React.useState(false);
@@ -61,12 +62,12 @@ export default function TransactionModal({ isOpen, onClose, state }) {
             )}
           </h3>
 
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-slate-300 leading-relaxed max-w-md mx-auto">
             {message || (
               status === 'pending' ? 'Please approve the transaction prompt inside your MetaMask wallet...' :
               status === 'mining' ? 'Transaction submitted. Waiting for EVM block confirmation...' :
               status === 'confirmed' ? 'The state has been permanently recorded on the immutable ledger.' :
-              error || 'The transaction could not be processed.'
+              parseBlockchainError(error)
             )}
           </p>
         </div>

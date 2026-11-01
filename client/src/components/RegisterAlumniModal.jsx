@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, PlusCircle, Loader2, Sparkles, GraduationCap } from 'lucide-react';
-import { registerAlumniOnChain } from '../services/blockchain';
+import { registerAlumniOnChain, parseBlockchainError } from '../services/blockchain';
 import { saveAlumniRecord, addTransactionRecord } from '../services/storage';
 
 const ACADEMIC_PROGRAMS = [
@@ -182,11 +182,12 @@ export default function RegisterAlumniModal({ isOpen, onClose, onSuccess, onTxSt
       onClose();
     } catch (err) {
       console.error('Registration failed:', err);
-      setFormError(err.message || 'Transaction rejected or reverted');
+      const friendlyError = parseBlockchainError(err);
+      setFormError(friendlyError);
       onTxUpdate({
         status: 'error',
-        title: 'Registration Transaction Failed',
-        error: err.message,
+        title: 'Registration Blocked',
+        error: friendlyError,
       });
     } finally {
       setSubmitting(false);
