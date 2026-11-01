@@ -561,16 +561,33 @@ export const fetchContractEvents = async () => {
  */
 export const parseBlockchainError = (err) => {
   if (!err) return "Transaction could not be completed.";
-  const raw = typeof err === 'string' ? err : (err.message || err.data || JSON.stringify(err));
+  let raw = "";
+  try {
+    raw = (
+      (typeof err === 'string' ? err : '') + ' ' +
+      (err?.message || '') + ' ' +
+      (err?.data || '') + ' ' +
+      (err?.reason || '') + ' ' +
+      (err?.shortMessage || '') + ' ' +
+      (err?.info?.error?.data || '') + ' ' +
+      (err?.error?.data || '') + ' ' +
+      JSON.stringify(err || {})
+    );
+  } catch (e) {
+    raw = String(err?.message || err);
+  }
   
-  if (raw.includes("0xb32bb9c0") || raw.includes("CertificateAlreadyExists")) {
+  if (raw.includes("0xb32bb9c0") || raw.includes("0x72f1558a") || raw.includes("CertificateAlreadyExists")) {
     return "This Certificate ID has already been issued on the blockchain. The smart contract strictly prevents duplicate degrees to maintain academic integrity.";
   }
-  if (raw.includes("0x4095493c") || raw.includes("AlumniAlreadyExists")) {
+  if (raw.includes("0xcbe787e9") || raw.includes("0xf5d6634c") || raw.includes("0x4095493c") || raw.includes("AlumniAlreadyExists")) {
     return "This Alumni Registration ID is already registered on the blockchain. Duplicate student identities cannot be created.";
   }
-  if (raw.includes("0x0a14e295") || raw.includes("AlumniNotFound")) {
+  if (raw.includes("0x0a14e295") || raw.includes("0xe556f2e6") || raw.includes("AlumniNotFound")) {
     return "Alumnus ID was not found on the blockchain. The student record must be registered before issuing an academic degree.";
+  }
+  if (raw.includes("0x24741639") || raw.includes("0x4b93679c") || raw.includes("CertificateNotFound")) {
+    return "The requested Certificate ID was not found on the blockchain ledger.";
   }
   if (raw.includes("0x8eef6a6e") || raw.includes("OnlyAdminAllowed")) {
     return "Access Denied: Only the University Institution Admin wallet can perform this action.";
@@ -578,14 +595,14 @@ export const parseBlockchainError = (err) => {
   if (raw.includes("0xea8e4eb5") || raw.includes("NotAuthorized")) {
     return "Access Denied: Your connected wallet is not an authorized University Registrar.";
   }
-  if (raw.includes("4001") || raw.toLowerCase().includes("user rejected") || raw.toLowerCase().includes("user denied")) {
+  if (raw.includes("4001") || raw.toLowerCase().includes("user rejected") || raw.toLowerCase().includes("user denied") || raw.toLowerCase().includes("action_rejected")) {
     return "Transaction was cancelled in MetaMask by the user.";
   }
   if (raw.toLowerCase().includes("insufficient funds")) {
     return "Insufficient ETH in your wallet to cover the transaction gas fee.";
   }
   if (raw.includes("CALL_EXCEPTION") || raw.includes("execution reverted")) {
-    return "Smart contract rejected the transaction. The record may already exist or violates access rules.";
+    return "Smart contract rejected the transaction: Record already exists or violates security rules.";
   }
   return raw;
 };
