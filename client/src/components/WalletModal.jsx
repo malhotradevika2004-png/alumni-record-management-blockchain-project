@@ -20,7 +20,8 @@ export default function WalletModal({ isOpen, onClose, walletState, onWalletConn
     setLoading(true);
     setErrorMsg('');
     try {
-      const data = await connectMetaMask(true);
+      const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
+      const data = await connectMetaMask(!isHttps);
       onWalletConnected(data);
       onClose();
     } catch (err) {
