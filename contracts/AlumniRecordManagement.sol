@@ -475,5 +475,11 @@ contract AlumniRecordManagement {
         _revokedCertificates = revokedCertificatesCount;
         _activeCertificates = totalCertificatesCount >= revokedCertificatesCount ? totalCertificatesCount - revokedCertificatesCount : 0;
     }
+
+    /**
+     * @notice Fallback and receive functions to gracefully handle MetaMask/wallet probing calls without reverting
+     */
+    fallback() external payable {}
+    receive() external payable {}
 }
 
