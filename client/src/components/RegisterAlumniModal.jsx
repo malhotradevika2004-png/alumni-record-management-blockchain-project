@@ -80,6 +80,7 @@ export default function RegisterAlumniModal({ isOpen, onClose, onSuccess, onTxSt
 
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState('');
+  const [isCustomDegree, setIsCustomDegree] = useState(false);
 
   if (!isOpen) return null;
 
@@ -89,6 +90,11 @@ export default function RegisterAlumniModal({ isOpen, onClose, onSuccess, onTxSt
 
   const handleProgramSelect = (e) => {
     const selectedCourse = e.target.value;
+    if (selectedCourse === '__custom__') {
+      setIsCustomDegree(true);
+      setFormData({ ...formData, degree: '' });
+      return;
+    }
     const match = ACADEMIC_PROGRAMS.find(p => p.course === selectedCourse);
     if (match) {
       setFormData({
@@ -102,6 +108,7 @@ export default function RegisterAlumniModal({ isOpen, onClose, onSuccess, onTxSt
   };
 
   const handleQuickSeedFill = () => {
+    setIsCustomDegree(false);
     const randomNum = Math.floor(100 + Math.random() * 900);
     setFormData({
       alumniId: `ALU-2024-${randomNum}`,
@@ -265,37 +272,59 @@ export default function RegisterAlumniModal({ isOpen, onClose, onSuccess, onTxSt
               />
             </div>
 
-            {/* Degree Title with Academic Program Preset */}
+            {/* Degree Program */}
             <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-semibold text-slate-300">
+              <div className="flex items-center justify-between mb-1.5 h-4">
+                <label className="text-xs font-semibold text-slate-300 block">
                   Degree Program *
                 </label>
+                {isCustomDegree && (
+                  <button
+                    type="button"
+                    onClick={() => setIsCustomDegree(false)}
+                    className="text-[10px] text-brand-400 hover:text-brand-300 transition"
+                  >
+                    ← Pick from list
+                  </button>
+                )}
+              </div>
+              {isCustomDegree ? (
+                <input
+                  type="text"
+                  name="degree"
+                  value={formData.degree}
+                  onChange={handleChange}
+                  placeholder="e.g. Master of Science"
+                  required
+                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500"
+                />
+              ) : (
                 <select
+                  name="degree"
+                  value={formData.degree}
                   onChange={handleProgramSelect}
-                  className="bg-slate-900 border border-slate-700 text-[10px] text-brand-300 rounded px-1.5 py-0.5 cursor-pointer focus:outline-none"
+                  required
+                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500 cursor-pointer"
                 >
-                  <option value="">Preset Courses</option>
+                  <option value="">-- Select Degree Program --</option>
                   {ACADEMIC_PROGRAMS.map(p => (
                     <option key={p.course} value={p.course}>{p.course}</option>
                   ))}
+                  {!ACADEMIC_PROGRAMS.some(p => p.course === formData.degree) && formData.degree && (
+                    <option value={formData.degree}>{formData.degree}</option>
+                  )}
+                  <option value="__custom__">+ Other / Enter Custom Degree...</option>
                 </select>
-              </div>
-              <input
-                type="text"
-                name="degree"
-                value={formData.degree}
-                onChange={handleChange}
-                required
-                className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500"
-              />
+              )}
             </div>
 
             {/* Department */}
             <div>
-              <label className="text-xs font-semibold text-slate-300 mb-1.5 block">
-                Department / Faculty *
-              </label>
+              <div className="flex items-center mb-1.5 h-4">
+                <label className="text-xs font-semibold text-slate-300 block">
+                  Department / Faculty *
+                </label>
+              </div>
               <input
                 type="text"
                 name="department"
