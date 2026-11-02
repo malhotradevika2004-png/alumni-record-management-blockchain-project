@@ -16,6 +16,9 @@ export default {
   networks: {
     hardhat: {
       chainId: 31337,
+      allowUnlimitedContractSize: true,
+      throwOnTransactionFailures: false,
+      throwOnCallFailures: false,
     },
     localhost: {
       url: "http://127.0.0.1:8545",
